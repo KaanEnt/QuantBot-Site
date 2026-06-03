@@ -29,7 +29,7 @@ export function Header() {
             How it works
           </Link>
           <Link
-            href="#waitlist"
+            href="#tracks"
             className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
           >
             Waitlist
