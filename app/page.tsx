@@ -3,7 +3,7 @@ import {
   Hero,
   HowItWorks,
   Features,
-  Waitlist,
+  TrackSelector,
   Footer,
 } from "@/components";
 
@@ -12,13 +12,11 @@ export default function Home() {
     <main className="flex-1">
       <Header />
       <Hero />
+      <TrackSelector />
       <section id="how-it-works">
         <HowItWorks />
       </section>
       <Features />
-      <section id="waitlist">
-        <Waitlist />
-      </section>
       <Footer />
     </main>
   );

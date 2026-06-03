@@ -4,6 +4,10 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 export function Hero() {
+  const scrollToTracks = () => {
+    document.getElementById("tracks")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section className="relative px-6 lg:px-12 pt-32 pb-24 lg:pt-40 lg:pb-32">
       <div className="max-w-6xl mx-auto">
@@ -28,11 +32,11 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight text-foreground leading-[0.95] max-w-4xl text-balance"
+          className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight text-foreground leading-[0.95] max-w-5xl text-balance"
         >
-          Your personal
+          Stop waiting for the polished version.
           <br />
-          quant teacher
+          <span className="text-accent">Build the tool you need to learn it.</span>
         </motion.h1>
 
         <motion.p
@@ -41,24 +45,23 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-8 text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
         >
-          Two powerful modes. One intelligent system. Learn complex financial
-          concepts with our Teacher mode, then build and test trading algorithms
-          with our Implementer. All backed by a living knowledge base and
-          parallel research adapters.
+          QuantBot is a personal learning engine. Give it a topic—like running
+          real-time backtests on $TSLA data—and watch it spin up full courses,
+          markdown briefs, and runnable execution files in seconds.
         </motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10 flex flex-wrap gap-4"
+          className="mt-10"
         >
-          <button className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-medium text-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg">
-            Open library
+          <button
+            onClick={scrollToTracks}
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-medium text-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
+          >
+            Join the waitlist
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
-          <button className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-foreground rounded-xl font-medium text-lg border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-200">
-            Open chat
           </button>
         </motion.div>
       </div>
