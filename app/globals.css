@@ -14,7 +14,11 @@
   --muted: #E8E6E0;
   --muted-foreground: #666666;
   --border: #E5E3DD;
+  --input: #E5E3DD;
   --ring: #FFB300;
+  --ring-offset-background: #FEFCF6;
+  --destructive: #DC2626;
+  --destructive-foreground: #FEFCF6;
   --radius: 12px;
 }
 
@@ -32,7 +36,11 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
+  --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-ring-offset-background: var(--ring-offset-background);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --radius: var(--radius);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
