@@ -1,13 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+
+import { GetStartedButton } from "@/components/ui/get-started-button";
+import { scrollToWaitlist } from "@/lib/waitlist";
 
 export function Hero() {
-  const scrollToTracks = () => {
-    document.getElementById("tracks")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <section className="relative px-6 lg:px-12 pt-24 pb-16 lg:pt-28 lg:pb-20">
       <div className="max-w-6xl mx-auto">
@@ -56,13 +54,9 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-10"
         >
-          <button
-            onClick={scrollToTracks}
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl font-medium text-lg hover:bg-primary/90 transition-all duration-200 hover:shadow-lg"
-          >
+          <GetStartedButton onClick={scrollToWaitlist}>
             Join the waitlist
-            <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
+          </GetStartedButton>
         </motion.div>
       </div>
     </section>
