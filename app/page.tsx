@@ -1,11 +1,9 @@
-import {
-  Header,
-  Hero,
-  HowItWorks,
-  Features,
-  TrackSelector,
-  Footer,
-} from "@/components";
+import { Footer } from "@/components/footer";
+import { Features } from "@/components/features";
+import { Header } from "@/components/header";
+import { Hero } from "@/components/hero";
+import { HowItWorks } from "@/components/how-it-works";
+import { TrackSelector } from "@/components/track-selector";
 
 export default function Home() {
   return (
