@@ -3,6 +3,9 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
+import { GetStartedButton } from "@/components/ui/get-started-button";
+import { scrollToWaitlist } from "@/lib/waitlist";
+
 export function Header() {
   return (
     <motion.header
@@ -29,7 +32,7 @@ export function Header() {
             How it works
           </Link>
           <Link
-            href="#tracks"
+            href="#waitlist"
             className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium"
           >
             Waitlist
@@ -40,9 +43,7 @@ export function Header() {
           <button className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors">
             Sign in
           </button>
-          <button className="px-4 py-2 text-sm font-medium bg-foreground text-background rounded-lg hover:bg-foreground/90 transition-colors">
-            Get started
-          </button>
+          <GetStartedButton onClick={scrollToWaitlist} size="sm" />
         </div>
       </nav>
     </motion.header>
