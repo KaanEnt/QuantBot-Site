@@ -2,37 +2,19 @@
 
 import { motion } from "framer-motion";
 
-import { GetStartedButton } from "@/components/ui/get-started-button";
-import { scrollToWaitlist } from "@/lib/waitlist";
+import { WaitlistInlineForm } from "@/components/waitlist-inline-form";
 
 export function Hero() {
   return (
     <section className="relative px-6 lg:px-12 pt-24 pb-16 lg:pt-28 lg:pb-20">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-wrap gap-3 mb-8"
-        >
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-accent text-accent-foreground text-sm font-medium">
-            quantitative finance
-          </span>
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium border border-border">
-            agentic AI
-          </span>
-          <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium border border-border">
-            Python runtime
-          </span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
           className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight text-foreground leading-[0.95] max-w-5xl text-balance"
         >
-          Stop waiting for the polished version.
+          Don&apos;t wait for the polished version.
           <br />
           <span className="text-accent">Build the tool you need to learn it.</span>
         </motion.h1>
@@ -40,7 +22,7 @@ export function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
           className="mt-8 text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
         >
           QuantBot is a personal learning engine. Give it a topic—like running
@@ -51,12 +33,10 @@ export function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-10"
+          transition={{ duration: 0.6, delay: 0.25 }}
+          className="mt-12 lg:mt-14"
         >
-          <GetStartedButton onClick={scrollToWaitlist}>
-            Join the waitlist
-          </GetStartedButton>
+          <WaitlistInlineForm variant="hero" />
         </motion.div>
       </div>
     </section>
