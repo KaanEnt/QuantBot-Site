@@ -3,4 +3,7 @@ export { Hero } from "./hero";
 export { HowItWorks } from "./how-it-works";
 export { Features } from "./features";
 export { TrackSelector } from "./track-selector";
+export { WaitlistCapture } from "./waitlist-capture";
+export { TrackPreference } from "./track-preference";
 export { Footer } from "./footer";
+export { GetStartedButton } from "./ui/get-started-button";
