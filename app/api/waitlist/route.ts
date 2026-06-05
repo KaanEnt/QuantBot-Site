@@ -1,7 +1,15 @@
 import { NextResponse } from "next/server";
 
-import { createSupabaseAdmin } from "@/lib/supabase/server";
+import {
+  createSupabaseAdmin,
+  isSupabaseConfigured,
+} from "@/lib/supabase/server";
 import type { PreferredMode } from "@/lib/waitlist";
+import {
+  devWaitlistInsert,
+  devWaitlistUpsert,
+  isDevWaitlistFallbackEnabled,
+} from "@/lib/waitlist-dev-store";
 
 const VALID_MODES: PreferredMode[] = [
   "agentic-teacher",
@@ -28,6 +36,18 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!isSupabaseConfigured()) {
+      if (isDevWaitlistFallbackEnabled()) {
+        const { alreadyExists } = devWaitlistInsert(email);
+        return NextResponse.json({ ok: true, alreadyExists, mock: true });
+      }
+
+      return NextResponse.json(
+        { error: "Waitlist is not configured yet." },
+        { status: 503 },
+      );
+    }
+
     const supabase = createSupabaseAdmin();
     const { error } = await supabase.from("waitlist").insert({ email });
 
@@ -45,16 +65,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "Missing Supabase environment variables"
-    ) {
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
-    }
-
     console.error("Waitlist POST error:", error);
     return NextResponse.json(
       { error: "Unable to join waitlist. Please try again." },
@@ -83,6 +93,18 @@ export async function PATCH(request: Request) {
       );
     }
 
+    if (!isSupabaseConfigured()) {
+      if (isDevWaitlistFallbackEnabled()) {
+        devWaitlistUpsert(email, preferredMode);
+        return NextResponse.json({ ok: true, mock: true });
+      }
+
+      return NextResponse.json(
+        { error: "Waitlist is not configured yet." },
+        { status: 503 },
+      );
+    }
+
     const supabase = createSupabaseAdmin();
     const { error } = await supabase.from("waitlist").upsert(
       { email, preferred_mode: preferredMode },
@@ -99,16 +121,6 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "Missing Supabase environment variables"
-    ) {
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
-    }
-
     console.error("Waitlist PATCH error:", error);
     return NextResponse.json(
       { error: "Unable to save preference. Please try again." },
