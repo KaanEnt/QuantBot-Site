@@ -43,7 +43,9 @@ export function Header() {
           <button className="hidden sm:inline-flex px-4 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors">
             Sign in
           </button>
-          <GetStartedButton onClick={scrollToWaitlist} size="sm" />
+          <GetStartedButton onClick={scrollToWaitlist} size="sm">
+            Join the waitlist
+          </GetStartedButton>
         </div>
       </nav>
     </motion.header>
