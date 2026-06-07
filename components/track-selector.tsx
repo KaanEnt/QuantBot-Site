@@ -6,28 +6,28 @@ import { Cpu, TrendingUp } from "lucide-react";
 const tracks = {
   "agentic-teacher": {
     title: "The Agentic Teacher",
-    subtitle: "For builders, engineers, and deep learners",
+    subtitle: "For builders and engineers who want depth",
     description:
-      "Turn any complex subject into a custom-built, interactive curriculum with a parallel research adapter layer that validates knowledge depth.",
+      "Name a hard subject. QuantBot builds a curriculum, pulls sources in parallel, and checks whether you actually understand each module.",
     icon: Cpu,
     accent: true,
     features: [
-      "Custom curriculum generation",
-      "Research adapter validation",
-      "Interactive knowledge base",
+      "Curriculum from your topic",
+      "Source checks on each module",
+      "Notes that stay searchable",
     ],
   },
   "quant-teacher": {
     title: "The Quant Teacher",
-    subtitle: "For quants, traders, and fintech enthusiasts",
+    subtitle: "For quants, traders, and fintech people",
     description:
-      "Master alphas, market cycles, crashes, and regulation, backed by a direct Python runtime testing against live market data.",
+      "Study alphas, market cycles, crashes, and regulation. Every lesson can run on live data in Python.",
     icon: TrendingUp,
     accent: false,
     features: [
-      "Live market data testing",
-      "Python runtime execution",
-      "Alpha strategy development",
+      "Tests on live market data",
+      "Runnable Python on every topic",
+      "From concept to backtest",
     ],
   },
 };
@@ -46,10 +46,10 @@ export function TrackSelector() {
             Two tracks
           </span>
           <h2 className="text-3xl lg:text-4xl font-bold text-foreground tracking-tight text-balance">
-            Two tracks. One destination.
+            Two ways in. Same workflow.
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">
-            QuantBot adapts to how you learn. Explore both paths below.
+            Pick the path that matches how you study and build.
           </p>
         </motion.div>
 
