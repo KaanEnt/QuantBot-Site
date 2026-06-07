@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "QuantBot - Your Personal Quant Teacher",
-  description: "Learn quantitative finance and build trading algorithms with AI-powered guidance. Two modes: Teacher for concepts, Implementer for code.",
+  title: "QuantBot: Build the Guides and Skills to Excel",
+  description:
+    "Stop stacking courses to go deep on one topic. QuantBot generates study guides and runnable skills around what you want to learn.",
 };
 
 export default function RootLayout({
