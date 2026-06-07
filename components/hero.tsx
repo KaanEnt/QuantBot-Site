@@ -14,9 +14,9 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.05 }}
           className="text-5xl sm:text-6xl lg:text-8xl font-bold tracking-tight text-foreground leading-[0.95] max-w-5xl text-balance"
         >
-          Don&apos;t wait for the polished version.
+          You choose the subject.
           <br />
-          <span className="text-accent">Build the tool you need to learn it.</span>
+          <span className="text-accent">Build the guides and skills to excel.</span>
         </motion.h1>
 
         <motion.p
@@ -25,9 +25,9 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="mt-8 text-lg lg:text-xl text-muted-foreground max-w-2xl leading-relaxed"
         >
-          QuantBot is a personal learning engine. Give it a topic—like running
-          real-time backtests on $TSLA data—and watch it spin up full courses,
-          markdown briefs, and runnable execution files in seconds.
+          Stop stacking courses to go deep on one topic. QuantBot generates
+          study guides and runnable skills around what you want to learn, and
+          updates them as you go.
         </motion.p>
 
         <motion.div
