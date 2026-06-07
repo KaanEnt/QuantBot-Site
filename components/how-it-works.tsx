@@ -7,22 +7,22 @@ const teacherSteps = [
   {
     icon: Search,
     label: "KB Lookup",
-    description: "Searches knowledge base",
+    description: "Checks what you already know",
   },
   {
     icon: Database,
     label: "Research Adapters",
-    description: "Parallel data retrieval",
+    description: "Pulls papers, docs, and market data",
   },
   {
     icon: Sparkles,
     label: "Synthesis",
-    description: "Generates study guide",
+    description: "Writes the study guide",
   },
   {
     icon: BookOpen,
     label: "Save to KB",
-    description: "Persists for future use",
+    description: "Saves it for next time",
   },
 ];
 
@@ -30,22 +30,22 @@ const implementerSteps = [
   {
     icon: BookOpen,
     label: "Read Topic",
-    description: "Loads from knowledge base",
+    description: "Reads the topic brief",
   },
   {
     icon: Code2,
     label: "Scaffold Skill",
-    description: "Generates Python code",
+    description: "Writes the Python",
   },
   {
     icon: Zap,
     label: "Register",
-    description: "Adds to skill registry",
+    description: "Registers as a skill",
   },
   {
     icon: Sparkles,
     label: "Test Live",
-    description: "Runs against real data",
+    description: "Runs on live data",
   },
 ];
 
@@ -169,14 +169,14 @@ export function HowItWorks() {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-accent text-accent-foreground text-sm font-medium mb-6">
-            Two Modes, One System
+            Two modes
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-foreground tracking-tight text-balance">
             How QuantBot Works
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            A dictionary-style knowledge base paired with research adapters and
-            a Python runtime. Choose your mode based on your goal.
+            A searchable knowledge base, research adapters, and a Python
+            runtime. Pick learn or build.
           </p>
         </motion.div>
 
@@ -190,7 +190,7 @@ export function HowItWorks() {
           <ModeCard
             title="Teacher Mode"
             command="quant-teacher"
-            description="Ask QuantBot to explain any quantitative finance concept. It synthesizes a comprehensive study guide from multiple sources."
+            description="Ask for a quant concept. QuantBot searches the knowledge base, pulls research, and writes a study guide you can keep."
             example="Explain Black-Scholes and its assumptions"
             steps={teacherSteps}
             isTeacher={true}
@@ -198,7 +198,7 @@ export function HowItWorks() {
           <ModeCard
             title="Implementer Mode"
             command="quant-implementer"
-            description="Ask QuantBot to build something. It scaffolds the code, registers it as a reusable skill, and tests against live data."
+            description="Ask for a tool or backtest. QuantBot writes the Python, saves it as a skill, and runs it against live data."
             example="Build a momentum backtester for equities"
             steps={implementerSteps}
             isTeacher={false}
