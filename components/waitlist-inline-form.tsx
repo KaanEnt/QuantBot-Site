@@ -23,7 +23,7 @@ export function WaitlistInlineForm({
     errorMessage,
     handleBlur,
     handleChange,
-    handleJoinClick,
+    handleSubmit,
     isDisabled,
   } = useWaitlistEmail();
 
@@ -31,7 +31,9 @@ export function WaitlistInlineForm({
 
   return (
     <div id="waitlist" className={cn("w-full", className)}>
-      <div
+      <form
+        noValidate
+        onSubmit={handleSubmit}
         className={cn(
           "flex w-full flex-col overflow-hidden rounded-2xl border-2 border-border bg-card transition-all sm:h-14 sm:flex-row sm:items-stretch",
           "focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10",
@@ -44,6 +46,7 @@ export function WaitlistInlineForm({
         <div className="relative flex min-h-14 min-w-0 flex-1 items-center border-b border-border sm:border-b-0 sm:border-r">
           <input
             id="waitlist-email"
+            name="email"
             type="email"
             value={email}
             onChange={(e) => handleChange(e.target.value)}
@@ -85,15 +88,14 @@ export function WaitlistInlineForm({
         </div>
 
         <GetStartedButton
-          type="button"
+          type="submit"
           layout="inline"
-          onClick={handleJoinClick}
           disabled={isDisabled}
           className="w-full sm:w-auto"
         >
           Join the waitlist
         </GetStartedButton>
-      </div>
+      </form>
 
       {isHero && (
         <p className="mt-3 text-sm text-muted-foreground">
