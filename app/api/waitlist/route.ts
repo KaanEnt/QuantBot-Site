@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 
 import {
-  createSupabaseAdmin,
   getSupabaseConfigIssue,
+  insertWaitlistEmail,
   isSupabaseConfigured,
+  upsertWaitlistPreference,
 } from "@/lib/supabase/server";
 import { waitlistErrorResponse } from "@/lib/waitlist-api-errors";
 import type { PreferredMode } from "@/lib/waitlist";
@@ -26,6 +27,17 @@ function normalizeEmail(email: unknown): string | null {
   return trimmed;
 }
 
+function notConfiguredResponse(): NextResponse {
+  console.error(
+    "Waitlist config issue:",
+    getSupabaseConfigIssue() ?? "Supabase env vars are not set",
+  );
+  return NextResponse.json(
+    { error: "Waitlist is not configured yet." },
+    { status: 503 },
+  );
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -44,33 +56,22 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, alreadyExists, mock: true });
       }
 
-      console.error(
-        "Waitlist config issue:",
-        getSupabaseConfigIssue() ?? "Supabase env vars are not set",
-      );
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
+      return notConfiguredResponse();
     }
 
     const configIssue = getSupabaseConfigIssue();
     if (configIssue) {
       console.error("Waitlist config issue:", configIssue);
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
+      return notConfiguredResponse();
     }
 
-    const supabase = createSupabaseAdmin();
-    const { error } = await supabase.from("waitlist").insert({ email });
+    const { error, alreadyExists } = await insertWaitlistEmail(email);
+
+    if (alreadyExists) {
+      return NextResponse.json({ ok: true, alreadyExists: true });
+    }
 
     if (error) {
-      if (error.code === "23505") {
-        return NextResponse.json({ ok: true, alreadyExists: true });
-      }
-
       return waitlistErrorResponse("insert", error);
     }
 
@@ -110,30 +111,16 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ ok: true, mock: true });
       }
 
-      console.error(
-        "Waitlist config issue:",
-        getSupabaseConfigIssue() ?? "Supabase env vars are not set",
-      );
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
+      return notConfiguredResponse();
     }
 
     const configIssue = getSupabaseConfigIssue();
     if (configIssue) {
       console.error("Waitlist config issue:", configIssue);
-      return NextResponse.json(
-        { error: "Waitlist is not configured yet." },
-        { status: 503 },
-      );
+      return notConfiguredResponse();
     }
 
-    const supabase = createSupabaseAdmin();
-    const { error } = await supabase.from("waitlist").upsert(
-      { email, preferred_mode: preferredMode },
-      { onConflict: "email" },
-    );
+    const { error } = await upsertWaitlistPreference(email, preferredMode);
 
     if (error) {
       return waitlistErrorResponse("upsert", error);

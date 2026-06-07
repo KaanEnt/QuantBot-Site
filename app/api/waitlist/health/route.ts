@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 
 import {
-  createSupabaseAdmin,
+  getSupabaseAdminKeys,
+  getSupabaseAnonKey,
   getSupabaseConfigIssue,
   getSupabaseEnvPresence,
+  insertWaitlistEmail,
   isSupabaseConfigured,
 } from "@/lib/supabase/server";
 
@@ -21,31 +23,16 @@ export async function GET() {
     });
   }
 
-  try {
-    const supabase = createSupabaseAdmin();
-    const { error } = await supabase.from("waitlist").select("email").limit(1);
+  const probeEmail = `health-${Date.now()}@example.com`;
+  const { error } = await insertWaitlistEmail(probeEmail);
 
-    if (error) {
-      return NextResponse.json({
-        ok: false,
-        configured: true,
-        issue: error.message,
-        code: error.code,
-        envPresent,
-      });
-    }
-
-    return NextResponse.json({
-      ok: true,
-      configured: true,
-      envPresent,
-    });
-  } catch (error) {
-    return NextResponse.json({
-      ok: false,
-      configured: true,
-      issue: error instanceof Error ? error.message : "Unknown error",
-      envPresent,
-    });
-  }
+  return NextResponse.json({
+    ok: !error,
+    configured: true,
+    issue: error?.message ?? null,
+    code: error?.code ?? null,
+    envPresent,
+    adminKeyCount: getSupabaseAdminKeys().length,
+    hasAnonKey: Boolean(getSupabaseAnonKey()),
+  });
 }

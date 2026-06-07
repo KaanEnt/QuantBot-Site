@@ -20,6 +20,10 @@ on public.waitlist
 for insert
 with check (true);
 
+grant usage on schema public to anon, authenticated, service_role;
+grant select, insert, update on public.waitlist to service_role;
+grant insert on public.waitlist to anon, authenticated;
+
 -- Diagnostic insert (run manually, then delete):
 -- insert into public.waitlist (email) values ('diagnostic@example.com');
 -- delete from public.waitlist where email = 'diagnostic@example.com';
