@@ -6,45 +6,45 @@ import { Brain, Code, Database, LineChart, Sparkles, Zap } from "lucide-react";
 const features = [
   {
     icon: Brain,
-    title: "Intelligent KB",
+    title: "Knowledge Base",
     description:
-      "Dictionary-style knowledge base that grows with every interaction. Your learnings persist and compound.",
+      "A dictionary-style store for every topic you study or build. Past work stays searchable.",
     tags: ["persistent", "searchable"],
   },
   {
     icon: Database,
     title: "Research Adapters",
     description:
-      "Parallel data retrieval from multiple sources. Real-time market data, academic papers, and documentation.",
-    tags: ["real-time", "multi-source"],
+      "Pulls market data, papers, and docs at the same time. No single-source summaries.",
+    tags: ["parallel", "multi-source"],
   },
   {
     icon: Code,
     title: "Python Runtime",
     description:
-      "Execute and test code against live data. Build backtests, analyze portfolios, and validate strategies.",
+      "Run backtests, portfolio checks, and strategy tests on live data without leaving the workflow.",
     tags: ["execution", "live data"],
   },
   {
     icon: LineChart,
     title: "Skill Registry",
     description:
-      "Every implementation becomes a reusable skill. Build once, use everywhere across your workflow.",
-    tags: ["reusable", "composable"],
+      "Every build becomes a registered skill. Reuse it on the next topic.",
+    tags: ["reusable", "registered"],
   },
   {
     icon: Sparkles,
-    title: "Study Synthesis",
+    title: "Study Guides",
     description:
-      "Comprehensive study guides generated from multiple perspectives. Learn concepts deeply, not superficially.",
-    tags: ["comprehensive", "multi-angle"],
+      "Built from several sources. Each one includes examples and checkpoints, not one flat summary.",
+    tags: ["multi-source", "worked examples"],
   },
   {
     icon: Zap,
     title: "Live Testing",
     description:
-      "Test your implementations against real market conditions. Validate before you deploy.",
-    tags: ["validation", "confidence"],
+      "Run new code against live market data before you trust the output.",
+    tags: ["live data", "checks"],
   },
 ];
 
@@ -74,14 +74,13 @@ export function Features() {
           className="text-center mb-16"
         >
           <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium border border-border mb-6">
-            Core Capabilities
+            Under the hood
           </span>
           <h2 className="text-4xl lg:text-5xl font-bold text-foreground tracking-tight text-balance">
-            Everything You Need
+            What runs underneath
           </h2>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-            A complete system for learning and implementing quantitative
-            finance. From concepts to code, all in one place.
+            One stack for learning quant finance and shipping the code.
           </p>
         </motion.div>
 
