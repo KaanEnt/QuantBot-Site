@@ -1,15 +1,24 @@
--- Canonical waitlist schema expected by app/api/waitlist/route.ts
--- Compare against your live Supabase project if inserts return 500.
+-- Canonical waitlist schema for QuantBot-Site
+-- Matches production Supabase table used by app/api/waitlist/route.ts
 
 create table if not exists public.waitlist (
-  email text primary key,
-  preferred_mode text check (
+  id uuid default gen_random_uuid() primary key,
+  email text not null unique,
+  preferred_mode text null,
+  inserted_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  metadata jsonb default '{}'::jsonb,
+
+  constraint check_valid_mode check (
     preferred_mode in ('agentic-teacher', 'quant-teacher', 'general')
-  ),
-  created_at timestamptz not null default now()
+  )
 );
 
 alter table public.waitlist enable row level security;
+
+create policy "Allow public insert to waitlist"
+on public.waitlist
+for insert
+with check (true);
 
 -- Diagnostic insert (run manually, then delete):
 -- insert into public.waitlist (email) values ('diagnostic@example.com');

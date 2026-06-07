@@ -29,10 +29,10 @@ Without Supabase env vars, the API uses an in-memory fallback in development so 
 To persist signups locally or in production:
 
 1. Copy `.env.local.example` to `.env.local` and fill in your Supabase project values.
-2. Run the migration in `supabase/migrations/20260607183000_waitlist.sql` in the Supabase SQL editor (or via Supabase CLI).
-3. Set the same env vars in Vercel (`NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) and redeploy.
+2. Confirm the `public.waitlist` table exists (see `supabase/migrations/20260607183000_waitlist.sql`).
+3. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel and redeploy.
 
-Use the **service role** secret for `SUPABASE_SERVICE_ROLE_KEY`, not the anon/publishable key.
+Use the **service role** secret for `SUPABASE_SERVICE_ROLE_KEY`, not the anon/publishable key. `SUPABASE_URL` is read server-side; `NEXT_PUBLIC_SUPABASE_URL` is also accepted as a fallback.
 
 If signups fail in production, check Vercel function logs for `Waitlist insert error:` with the Supabase error code, then compare your live table schema against the migration file.
 

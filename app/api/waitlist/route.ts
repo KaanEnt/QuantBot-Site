@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import {
   createSupabaseAdmin,
+  getSupabaseConfigIssue,
   isSupabaseConfigured,
 } from "@/lib/supabase/server";
 import { waitlistErrorResponse } from "@/lib/waitlist-api-errors";
@@ -43,6 +44,19 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, alreadyExists, mock: true });
       }
 
+      console.error(
+        "Waitlist config issue:",
+        getSupabaseConfigIssue() ?? "Supabase env vars are not set",
+      );
+      return NextResponse.json(
+        { error: "Waitlist is not configured yet." },
+        { status: 503 },
+      );
+    }
+
+    const configIssue = getSupabaseConfigIssue();
+    if (configIssue) {
+      console.error("Waitlist config issue:", configIssue);
       return NextResponse.json(
         { error: "Waitlist is not configured yet." },
         { status: 503 },
@@ -96,6 +110,19 @@ export async function PATCH(request: Request) {
         return NextResponse.json({ ok: true, mock: true });
       }
 
+      console.error(
+        "Waitlist config issue:",
+        getSupabaseConfigIssue() ?? "Supabase env vars are not set",
+      );
+      return NextResponse.json(
+        { error: "Waitlist is not configured yet." },
+        { status: 503 },
+      );
+    }
+
+    const configIssue = getSupabaseConfigIssue();
+    if (configIssue) {
+      console.error("Waitlist config issue:", configIssue);
       return NextResponse.json(
         { error: "Waitlist is not configured yet." },
         { status: 503 },
