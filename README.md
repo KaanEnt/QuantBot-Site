@@ -18,6 +18,24 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Waitlist setup
+
+The hero signup form posts to `/api/waitlist` and stores emails in Supabase.
+
+### Local development
+
+Without Supabase env vars, the API uses an in-memory fallback in development so the form still works.
+
+To persist signups locally or in production:
+
+1. Copy `.env.local.example` to `.env.local` and fill in your Supabase project values.
+2. Run the migration in `supabase/migrations/20260607183000_waitlist.sql` in the Supabase SQL editor (or via Supabase CLI).
+3. Set the same env vars in Vercel (`NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`) and redeploy.
+
+Use the **service role** secret for `SUPABASE_SERVICE_ROLE_KEY`, not the anon/publishable key.
+
+If signups fail in production, check Vercel function logs for `Waitlist insert error:` with the Supabase error code, then compare your live table schema against the migration file.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
