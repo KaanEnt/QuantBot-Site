@@ -52,6 +52,16 @@ export function waitlistErrorResponse(
     );
   }
 
+  if (error.code === "42501") {
+    return NextResponse.json(
+      {
+        error:
+          "Waitlist database permissions are not set up. Run supabase/fix-waitlist-permissions.sql in Supabase.",
+      },
+      { status: 503 },
+    );
+  }
+
   return NextResponse.json(
     {
       error:

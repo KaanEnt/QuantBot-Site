@@ -36,6 +36,8 @@ Use the **service role** secret for `SUPABASE_SERVICE_ROLE_KEY`, not the anon/pu
 
 If signups fail in production, check Vercel function logs for `Waitlist insert error:` with the Supabase error code, then compare your live table schema against the migration file.
 
+If the error code is **42501** (`permission denied for table waitlist`), run [`supabase/fix-waitlist-permissions.sql`](supabase/fix-waitlist-permissions.sql) in the Supabase SQL editor. RLS insert policies do not grant table access by themselves.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
