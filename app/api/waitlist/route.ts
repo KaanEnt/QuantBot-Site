@@ -4,6 +4,7 @@ import {
   createSupabaseAdmin,
   isSupabaseConfigured,
 } from "@/lib/supabase/server";
+import { waitlistErrorResponse } from "@/lib/waitlist-api-errors";
 import type { PreferredMode } from "@/lib/waitlist";
 import {
   devWaitlistInsert,
@@ -56,11 +57,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ ok: true, alreadyExists: true });
       }
 
-      console.error("Waitlist insert error:", error);
-      return NextResponse.json(
-        { error: "Unable to join waitlist. Please try again." },
-        { status: 500 },
-      );
+      return waitlistErrorResponse("insert", error);
     }
 
     return NextResponse.json({ ok: true });
@@ -112,11 +109,7 @@ export async function PATCH(request: Request) {
     );
 
     if (error) {
-      console.error("Waitlist upsert error:", error);
-      return NextResponse.json(
-        { error: "Unable to save preference. Please try again." },
-        { status: 500 },
-      );
+      return waitlistErrorResponse("upsert", error);
     }
 
     return NextResponse.json({ ok: true });
