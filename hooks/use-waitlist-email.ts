@@ -6,12 +6,20 @@ import { isValidEmail } from "@/lib/waitlist";
 
 type CaptureState = "idle" | "submitting" | "success" | "error";
 
+const INVALID_EMAIL_MESSAGE = "Please enter a valid email address";
+
 export function useWaitlistEmail() {
   const [email, setEmail] = useState("");
   const [state, setState] = useState<CaptureState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const submittedEmailRef = useRef<string | null>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showValidationError = useCallback(() => {
+    setErrorMessage(INVALID_EMAIL_MESSAGE);
+    setState("error");
+    document.getElementById("waitlist-email")?.focus();
+  }, []);
 
   const submitEmail = useCallback(async (value: string) => {
     const trimmed = value.trim().toLowerCase();
@@ -59,7 +67,7 @@ export function useWaitlistEmail() {
       clearTimeout(debounceRef.current);
     }
 
-    if (state === "success" || state === "submitting") {
+    if (state === "success" || state === "submitting" || state === "error") {
       return;
     }
 
@@ -92,6 +100,21 @@ export function useWaitlistEmail() {
     }
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (state === "success" || state === "submitting") {
+      return;
+    }
+
+    if (isValidEmail(email)) {
+      void submitEmail(email);
+      return;
+    }
+
+    showValidationError();
+  };
+
   const handleJoinClick = () => {
     if (state === "success" || state === "submitting") {
       return;
@@ -102,7 +125,7 @@ export function useWaitlistEmail() {
       return;
     }
 
-    document.getElementById("waitlist-email")?.focus();
+    showValidationError();
   };
 
   return {
@@ -112,6 +135,7 @@ export function useWaitlistEmail() {
     handleBlur,
     handleChange,
     handleJoinClick,
+    handleSubmit,
     isDisabled: state === "submitting" || state === "success",
   };
 }
