@@ -59,7 +59,7 @@ export function TrackPreference({ email }: TrackPreferenceProps) {
   return (
     <div className="rounded-2xl border border-border bg-card p-6">
       <p className="text-sm font-medium text-foreground mb-1">
-        Optional — which track interests you most?
+        Optional: which track interests you most?
       </p>
       <p className="text-sm text-muted-foreground mb-4">
         Pick one if you want. You can skip this for now.
