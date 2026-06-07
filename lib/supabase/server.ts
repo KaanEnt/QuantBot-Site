@@ -1,6 +1,9 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const URL_ENV_KEYS = ["SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_URL"] as const;
+const URL_ENV_KEYS = [
+  "NEXT_PUBLIC_SUPABASE_URL",
+  "SUPABASE_URL",
+] as const;
 
 const ADMIN_KEY_ENV_KEYS = [
   "SUPABASE_SECRET_KEY",
@@ -25,6 +28,26 @@ function readEnv(key: string): string | undefined {
   return value || undefined;
 }
 
+function parseJwtPayload(key: string): { role?: string; ref?: string } | null {
+  const parts = key.split(".");
+  if (parts.length !== 3) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(
+      Buffer.from(parts[1], "base64url").toString("utf8"),
+    ) as { role?: string; ref?: string };
+  } catch {
+    return null;
+  }
+}
+
+function getProjectRefFromUrl(url: string): string | null {
+  const match = url.match(/https:\/\/([a-z0-9-]+)\.supabase\.co/i);
+  return match?.[1] ?? null;
+}
+
 export function getSupabaseEnvPresence(): SupabaseEnvPresence {
   return {
     SUPABASE_URL: Boolean(readEnv("SUPABASE_URL")),
@@ -45,6 +68,24 @@ export function getSupabaseUrl(): string | undefined {
   return undefined;
 }
 
+export function getSupabaseUrlSource(): string | null {
+  for (const key of URL_ENV_KEYS) {
+    if (readEnv(key)) return key;
+  }
+  return null;
+}
+
+export function getSupabaseHost(): string | null {
+  const url = getSupabaseUrl();
+  if (!url) return null;
+
+  try {
+    return new URL(url).host;
+  } catch {
+    return null;
+  }
+}
+
 export function getSupabaseAdminKeys(): string[] {
   const keys: string[] = [];
 
@@ -52,7 +93,7 @@ export function getSupabaseAdminKeys(): string[] {
     const value = readEnv(envKey);
     if (!value) continue;
 
-    const role = getJwtRole(value);
+    const role = parseJwtPayload(value)?.role;
     if (role === "anon") continue;
 
     keys.push(value);
@@ -69,20 +110,26 @@ export function getSupabaseAnonKey(): string | undefined {
   return undefined;
 }
 
-function getJwtRole(key: string): string | null {
-  const parts = key.split(".");
-  if (parts.length !== 3) {
-    return null;
+export function getSupabaseUrlKeyMismatch(): string | null {
+  const url = getSupabaseUrl();
+  if (!url) return null;
+
+  const urlRef = getProjectRefFromUrl(url);
+  if (!urlRef) return null;
+
+  const keysToCheck = [
+    ...getSupabaseAdminKeys(),
+    ...(getSupabaseAnonKey() ? [getSupabaseAnonKey()!] : []),
+  ];
+
+  for (const key of keysToCheck) {
+    const keyRef = parseJwtPayload(key)?.ref;
+    if (keyRef && keyRef !== urlRef) {
+      return `Supabase URL project (${urlRef}) does not match API key project (${keyRef}). Prefer NEXT_PUBLIC_SUPABASE_URL and keys from the same Supabase project.`;
+    }
   }
 
-  try {
-    const payload = JSON.parse(
-      Buffer.from(parts[1], "base64url").toString("utf8"),
-    ) as { role?: string };
-    return payload.role ?? null;
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 export function getSupabaseConfigIssue(): string | null {
@@ -91,7 +138,7 @@ export function getSupabaseConfigIssue(): string | null {
   const hasAnonKey = Boolean(getSupabaseAnonKey());
 
   if (!url) {
-    return "Missing environment variables: SUPABASE_URL or NEXT_PUBLIC_SUPABASE_URL";
+    return "Missing environment variables: NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL";
   }
 
   if (!hasAdminKey && !hasAnonKey) {
@@ -102,7 +149,7 @@ export function getSupabaseConfigIssue(): string | null {
     return "Supabase URL does not look like a valid project URL";
   }
 
-  return null;
+  return getSupabaseUrlKeyMismatch();
 }
 
 export function isSupabaseConfigured(): boolean {
